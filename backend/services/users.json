@@ -1,0 +1,34 @@
+{
+  "users": [
+    {
+      "_id": "7bac8314-83f9-4971-b1f5-1f03d8570bab",
+      "username": "LST",
+      "password": "$2a$10$nXnGh.rBgmLYEgLPswQ8nusThSeZuECuFoQe9RVTOH0yrgoOdfkt.",
+      "createdAt": "2025-09-18T13:13:19.334Z"
+    },
+    {
+      "_id": "c979c3a8-62f6-45f6-9925-c265a589fd3f",
+      "username": "sunshine",
+      "password": "$2a$10$QHmBjOoNyGv8Zzn3T7le/.OJyRPvrwwWa4yE0z1vfKgKTKOauWBDG",
+      "createdAt": "2025-09-18T13:18:23.063Z"
+    },
+    {
+      "_id": "9733f1d1-ce4d-4c4f-b88c-0d47d0f12ac7",
+      "username": "promise789456",
+      "password": "$2a$10$5hYrz8/x2oHDkuwF3rBubu0d3vyzy/GFBXYWoaZQ75RI4DqiJJaJa",
+      "createdAt": "2025-09-18T13:46:20.406Z"
+    },
+    {
+      "_id": "0ecbdc1d-7151-45c1-b9e0-bacaa7f470d0",
+      "username": "1",
+      "password": "$2a$10$8R3xE/iUGjFhRnO8D6UhVuMo8g37RBHSVKOLAl6grXm8Xcv5S3jLe",
+      "createdAt": "2025-09-18T13:57:06.179Z"
+    },
+    {
+      "_id": "ebfdd32c-4ce2-4bb9-bdd2-5ea5a85cbb73",
+      "username": "12345",
+      "password": "$2a$10$YcY342qaxMQXpkqLb/JgAeZHE7uC8J7giziIIe4CocbFylGpNlu3u",
+      "createdAt": "2025-09-18T14:01:05.627Z"
+    }
+  ]
+}

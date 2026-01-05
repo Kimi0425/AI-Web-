@@ -1,0 +1,1714 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI科研助手 - 主页</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0f2027;
+            --secondary: #203a43;
+            --accent: #2c5364;
+            --highlight: #00c9ff;
+            --text: #e0e0e0;
+            --success: #00ff9d;
+            --warning: #ffcc00;
+            --danger: #ff4d4d;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: var(--text);
+            min-height: 100vh;
+            padding: 20px;
+            font-size: 16px;
+        }
+        
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: rgba(15, 32, 39, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            padding: 20px 30px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid rgba(0, 201, 255, 0.3);
+        }
+        
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2em;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--highlight), var(--success));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 10px rgba(0, 201, 255, 0.5);
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--highlight), var(--success));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        
+        .logout-btn {
+            background: linear-gradient(45deg, var(--danger), #ff0000);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 77, 77, 0.3);
+        }
+        
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 77, 77, 0.5);
+        }
+        
+        .main-layout {
+            display: flex;
+            gap: 30px;
+            height: calc(100vh - 180px);
+        }
+        
+        .document-panel {
+            flex: 1;
+            background: rgba(15, 32, 39, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            padding: 25px;
+            border: 1px solid rgba(0, 201, 255, 0.2);
+            overflow-y: auto;
+            max-height: 100%;
+        }
+        
+        .chat-panel {
+            flex: 1.5;
+            background: rgba(15, 32, 39, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            padding: 25px;
+            border: 1px solid rgba(0, 201, 255, 0.2);
+            display: flex;
+            flex-direction: column;
+            max-height: 100%;
+        }
+        
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(0, 201, 255, 0.3);
+        }
+        
+        .panel-header h2 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--highlight);
+            font-size: 1.8em;
+            margin: 0;
+        }
+        
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(0, 201, 255, 0.3);
+        }
+        
+        .upload-area {
+            border: 2px dashed rgba(0, 201, 255, 0.5);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            margin: 20px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(44, 83, 100, 0.2);
+        }
+        
+        .upload-area:hover {
+            border-color: var(--highlight);
+            background: rgba(0, 201, 255, 0.1);
+            transform: translateY(-3px);
+        }
+        
+        .upload-area i {
+            font-size: 3em;
+            color: var(--highlight);
+            margin-bottom: 15px;
+        }
+        
+        .upload-area h3 {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+        
+        .upload-area p {
+            margin: 10px 0 0;
+            color: #aaa;
+        }
+        
+        .btn {
+            background: linear-gradient(45deg, var(--highlight), #00ff9d);
+            color: var(--primary);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 201, 255, 0.3);
+            margin: 8px 0;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 201, 255, 0.5);
+        }
+        
+        .btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(45deg, var(--accent), var(--secondary));
+            color: var(--text);
+            box-shadow: 0 4px 15px rgba(44, 83, 100, 0.3);
+        }
+        
+        .file-list {
+            margin: 15px 0;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: rgba(44, 83, 100, 0.3);
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+        
+        .chat-container {
+            flex: 1;
+            overflow-y: auto;
+            border: 1px solid rgba(0, 201, 255, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            background: rgba(15, 32, 39, 0.5);
+            line-height: 1.6;
+            min-height: 400px;
+        }
+        
+        .message {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 12px;
+            animation: fadeIn 0.3s ease;
+            line-height: 1.6;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .user-message {
+            background: linear-gradient(135deg, rgba(0, 201, 255, 0.2), rgba(0, 201, 255, 0.1));
+            border: 1px solid rgba(0, 201, 255, 0.3);
+            margin-left: 20%;
+        }
+        
+        .ai-message {
+            background: linear-gradient(135deg, rgba(44, 83, 100, 0.3), rgba(32, 58, 67, 0.3));
+            border: 1px solid rgba(44, 83, 100, 0.5);
+            margin-right: 20%;
+        }
+        
+        .deep-analysis {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(0, 201, 255, 0.15);
+            border-radius: 10px;
+            border-left: 4px solid var(--highlight);
+        }
+        
+        .deep-analysis-header {
+            font-weight: bold;
+            color: var(--highlight);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .deep-analysis-content {
+            line-height: 1.6;
+        }
+
+        /* 优化 AI 文本显示：自动换行、分点更清晰、代码块样式 */
+        .answer-content {
+            white-space: pre-wrap; /* 保留 \n 为换行 */
+            line-height: 1.85;
+        }
+        .answer-content .ai-h2 {
+            margin: 12px 0 8px;
+            color: var(--highlight);
+            font-weight: 700;
+        }
+        .answer-content ul.ai-list {
+            margin: 6px 0 12px 20px;
+        }
+        .answer-content ul.ai-list li {
+            margin: 4px 0;
+        }
+        .answer-content ol.ai-ol {
+            margin: 6px 0 12px 22px;
+            padding-left: 18px;
+        }
+        .answer-content ol.ai-ol li {
+            margin: 4px 0;
+        }
+        .answer-content pre {
+            background: rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(0, 201, 255, 0.25);
+            padding: 12px;
+            border-radius: 8px;
+            overflow-x: auto;
+            line-height: 1.6;
+        }
+        .answer-content code {
+            color: #e6f3ff;
+        }
+
+        /* 图片渲染样式 */
+        .ai-image {
+            margin: 10px 0;
+            text-align: center;
+        }
+        .ai-image img {
+            max-width: 100%;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 201, 255, 0.2);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+        }
+        
+        .references-section {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(0, 201, 255, 0.3);
+        }
+        
+        .references-header {
+            font-weight: bold;
+            color: var(--success);
+            margin-bottom: 10px;
+        }
+        
+        .reference-item {
+            margin: 8px 0;
+            padding-left: 15px;
+            border-left: 2px solid rgba(0, 255, 157, 0.3);
+        }
+        
+        /* 重点内容高光显示 */
+        .highlight {
+            background-color: rgba(0, 201, 255, 0.3);
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .user-message .message-header {
+            color: var(--highlight);
+        }
+        
+        .ai-message .message-header {
+            color: var(--success);
+        }
+        
+        .input-section {
+            margin-top: 15px;
+        }
+        
+        .attachment-area {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        
+        .attachment-btn {
+            background: rgba(44, 83, 100, 0.5);
+            color: var(--text);
+            border: 1px solid rgba(0, 201, 255, 0.3);
+            border-radius: 6px;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-size: 0.85em;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .attachment-btn:hover {
+            background: rgba(0, 201, 255, 0.2);
+        }
+        
+        .input-area {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .input-area input {
+            flex: 1;
+            padding: 12px 20px;
+            border: 1px solid rgba(0, 201, 255, 0.3);
+            border-radius: 30px;
+            background: rgba(15, 32, 39, 0.7);
+            color: var(--text);
+            font-size: 1em;
+        }
+        
+        .input-area input:focus {
+            outline: none;
+            border-color: var(--highlight);
+            box-shadow: 0 0 10px rgba(0, 201, 255, 0.5);
+        }
+        
+        .btn {
+            background: linear-gradient(45deg, var(--highlight), #00ff9d);
+            color: var(--primary);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 201, 255, 0.3);
+            margin: 0;
+        }
+        
+        .knowledge-base {
+            margin-top: 20px;
+        }
+        
+        .literature-list {
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 12px;
+        }
+        
+        .literature-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: rgba(44, 83, 100, 0.3);
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+        
+        .literature-info {
+            flex: 1;
+        }
+        
+        .literature-name {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        
+        .literature-meta {
+            font-size: 0.9em;
+            color: #aaa;
+        }
+        
+        .delete-btn {
+            background: rgba(255, 77, 77, 0.2);
+            color: var(--danger);
+            border: 1px solid rgba(255, 77, 77, 0.5);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .delete-btn:hover {
+            background: rgba(255, 77, 77, 0.3);
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .status-online {
+            background: var(--success);
+            box-shadow: 0 0 8px var(--success);
+        }
+        
+        .status-offline {
+            background: var(--danger);
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 255, 157, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(0, 255, 157, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 255, 157, 0); }
+        }
+        
+        .history-section {
+            margin-top: 20px;
+        }
+        
+        .history-section h3 {
+            margin-bottom: 10px;
+        }
+        
+        .history-list {
+            max-height: 120px;
+            overflow-y: auto;
+        }
+        
+        /* 隐藏文件输入元素 */
+        .hidden-file-input {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">AI科研助手</div>
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar">U</div>
+                <span>欢迎，<span id="username">用户</span></span>
+                <button class="logout-btn" onclick="logout()">退出登录</button>
+            </div>
+        </div>
+        
+        <div class="main-layout">
+            <!-- 左侧文档管理区域 -->
+            <div class="document-panel">
+                <div class="panel-header">
+                    <h2>文档管理</h2>
+                    <div>
+                        <span class="status-indicator status-online pulse"></span>
+                        <span>系统运行中</span>
+                    </div>
+                </div>
+                
+                <div class="upload-area" onclick="document.getElementById('fileInput').click()">
+                    <h3>上传PDF文献</h3>
+                    <p>支持多文件同时上传</p>
+                    <p>点击选择或拖拽文件至此区域</p>
+                </div>
+                
+                <input type="file" id="fileInput" accept=".pdf" multiple class="hidden-file-input">
+                
+                <!-- CSV/MD文件上传区域 -->
+                <div class="upload-area" onclick="document.getElementById('dataFileInput').click()" style="margin-top: 15px;">
+                    <h3>上传数据文件 (CSV/MD)</h3>
+                    <p>支持CSV和Markdown格式</p>
+                    <p>点击选择或拖拽文件至此区域</p>
+                </div>
+                
+                <!-- 图片上传区域 -->
+                <div class="upload-area" onclick="document.getElementById('imageFileInput').click()" style="margin-top: 15px;">
+                    <h3>上传图片</h3>
+                    <p>支持JPG、PNG、GIF格式</p>
+                    <p>点击选择或拖拽文件至此区域</p>
+                </div>
+                
+                <input type="file" id="dataFileInput" accept=".csv,.md" multiple class="hidden-file-input">
+                <input type="file" id="imageFileInput" accept=".jpg,.jpeg,.png,.gif" multiple class="hidden-file-input">
+                
+                <div class="file-list" id="selectedFiles">
+                    <p>暂无选中文件</p>
+                </div>
+                
+                <button class="btn" onclick="uploadDocuments()">上传并分析PDF</button>
+                
+                <!-- CSV/MD文件列表和上传按钮 -->
+                <div class="file-list" id="selectedDataFiles" style="margin-top: 15px;">
+                    <p>暂无选中数据文件</p>
+                </div>
+                
+                <button class="btn" onclick="uploadDataFiles()">上传并分析数据文件</button>
+                
+                <!-- 图片文件列表和上传按钮 -->
+                <div class="file-list" id="selectedImageFiles" style="margin-top: 15px;">
+                    <p>暂无选中图片</p>
+                </div>
+                
+                <button class="btn" onclick="uploadImageFiles()">上传并分析图片</button>
+                
+                <div class="knowledge-base">
+                    <h3>文献库 <span id="literatureCount">(0)</span></h3>
+                    <div class="literature-list" id="knowledgeBase">
+                        <p>暂无文献</p>
+                    </div>
+                </div>
+                
+                <!-- 数据文件库 -->
+                <div class="knowledge-base" style="margin-top: 25px;">
+                    <h3>数据文件库 <span id="dataFileCount">(0)</span></h3>
+                    <div class="literature-list" id="dataFileList">
+                        <p>暂无数据文件</p>
+                    </div>
+                </div>
+                
+                <!-- 图片库 -->
+                <div class="knowledge-base" style="margin-top: 25px;">
+                    <h3>图片库 <span id="imageCount">(0)</span></h3>
+                    <div class="literature-list" id="imageList">
+                        <p>暂无图片</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 右侧问答区域 -->
+            <div class="chat-panel">
+                <div class="panel-header">
+                    <h2>AI问答</h2>
+                    <div>
+                        <span class="status-indicator status-online"></span>
+                        <span>AI就绪</span>
+                    </div>
+                </div>
+                
+                <div class="chat-container" id="chatContainer">
+                    <div class="message ai-message">
+                        <div class="message-header">
+                            <span>AI助手</span>
+                            <span>现在</span>
+                        </div>
+                        <div>您好！我是AI科研助手，基于您上传的文献资料为您提供专业的问答服务。请问有什么可以帮助您的吗？</div>
+                    </div>
+                </div>
+                
+                <div class="input-section">
+                    <!-- 附件上传区域 -->
+                    <div class="attachment-area">
+                        <div class="attachment-btn" onclick="document.getElementById('attachImage').click()">
+                            <span>🖼️ 图片</span>
+                        </div>
+                        <div class="attachment-btn" onclick="document.getElementById('attachTable').click()">
+                            <span>📊 表格</span>
+                        </div>
+                        <!-- 隐藏的文件输入 -->
+                        <input type="file" id="attachImage" accept=".jpg,.jpeg,.png,.gif" class="hidden-file-input">
+                        <input type="file" id="attachTable" accept=".csv,.xlsx" class="hidden-file-input">
+                    </div>
+                    
+                    <div class="input-area">
+                        <input type="text" id="questionInput" placeholder="请输入您的问题...">
+                        <button class="btn" onclick="askQuestion()">发送</button>
+                    </div>
+                </div>
+                
+                <div class="history-section">
+                    <h3>历史问答</h3>
+                    <div class="history-list" id="historyList">
+                        <p>暂无历史记录</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 全局变量
+        let selectedFiles = [];
+        let selectedDataFiles = [];
+        let selectedImageFiles = [];
+        let chatHistory = [];
+        let literatureList = [];
+        let dataFileList = [];
+        let imageList = [];
+        let attachedImages = [];
+        let attachedTables = [];
+        
+        // 页面加载时检查登录状态
+        window.onload = function() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                // 没有token，跳转到登录页
+                window.location.href = '/';
+                return;
+            }
+            
+            // 显示用户名
+            const username = 'testuser';
+            document.getElementById('username').textContent = username;
+            document.getElementById('userAvatar').textContent = username.charAt(0).toUpperCase();
+            
+            // 加载文献库
+            loadKnowledgeBase();
+            
+            // 加载数据文件库
+            loadDataFiles();
+            
+            // 加载图片库
+            loadImages();
+            
+            // 加载历史问答
+            loadChatHistory();
+            
+            // 为附件上传添加事件监听器
+            document.getElementById('attachImage').addEventListener('change', function(e) {
+                handleAttachedImage(e.target.files[0]);
+            });
+            
+            document.getElementById('attachTable').addEventListener('change', function(e) {
+                handleAttachedTable(e.target.files[0]);
+            });
+        };
+        
+        // 处理附加图片
+        function handleAttachedImage(file) {
+            if (!file || !file.type.startsWith('image/')) {
+                alert('请选择有效的图片文件');
+                return;
+            }
+            
+            attachedImages.push(file);
+            alert(`已附加图片: ${file.name}`);
+        }
+        
+        // 处理附加表格
+        function handleAttachedTable(file) {
+            if (!file) {
+                alert('请选择有效的表格文件');
+                return;
+            }
+            
+            attachedTables.push(file);
+            alert(`已附加表格: ${file.name}`);
+        }
+        
+        // 退出登录
+        function logout() {
+            localStorage.removeItem('token');
+            window.location.href = '/';
+        }
+        
+        // PDF文件选择事件
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            selectedFiles = Array.from(e.target.files);
+            updateSelectedFilesList();
+        });
+        
+        // CSV/MD文件选择事件
+        document.getElementById('dataFileInput').addEventListener('change', function(e) {
+            selectedDataFiles = Array.from(e.target.files);
+            updateSelectedDataFilesList();
+        });
+        
+        // 图片文件选择事件
+        document.getElementById('imageFileInput').addEventListener('change', function(e) {
+            selectedImageFiles = Array.from(e.target.files);
+            updateSelectedImageFilesList();
+        });
+        
+        // 更新选中PDF文件列表显示
+        function updateSelectedFilesList() {
+            const fileListDiv = document.getElementById('selectedFiles');
+            
+            if (selectedFiles.length === 0) {
+                fileListDiv.innerHTML = '<p>暂无选中文件</p>';
+                return;
+            }
+            
+            let html = '';
+            selectedFiles.forEach((file, index) => {
+                html += `
+                    <div class="file-item">
+                        <div class="file-info">
+                            <div>${file.name}</div>
+                            <div style="font-size: 0.9em; color: #aaa;">${(file.size/1024).toFixed(2)} KB</div>
+                        </div>
+                        <button class="delete-btn" onclick="removeFile(${index})">✕</button>
+                    </div>
+                `;
+            });
+            
+            fileListDiv.innerHTML = html;
+        }
+        
+        // 更新选中数据文件列表显示
+        function updateSelectedDataFilesList() {
+            const fileListDiv = document.getElementById('selectedDataFiles');
+            
+            if (selectedDataFiles.length === 0) {
+                fileListDiv.innerHTML = '<p>暂无选中数据文件</p>';
+                return;
+            }
+            
+            let html = '';
+            selectedDataFiles.forEach((file, index) => {
+                html += `
+                    <div class="file-item">
+                        <div class="file-info">
+                            <div>${file.name}</div>
+                            <div style="font-size: 0.9em; color: #aaa;">${(file.size/1024).toFixed(2)} KB</div>
+                        </div>
+                        <button class="delete-btn" onclick="removeDataFile(${index})">✕</button>
+                    </div>
+                `;
+            });
+            
+            fileListDiv.innerHTML = html;
+        }
+        
+        // 更新选中图片文件列表显示
+        function updateSelectedImageFilesList() {
+            const fileListDiv = document.getElementById('selectedImageFiles');
+            
+            if (selectedImageFiles.length === 0) {
+                fileListDiv.innerHTML = '<p>暂无选中图片</p>';
+                return;
+            }
+            
+            let html = '';
+            selectedImageFiles.forEach((file, index) => {
+                // 检查文件是否为图片格式
+                if (file.type.startsWith('image/')) {
+                    html += `
+                        <div class="file-item">
+                            <div class="file-info">
+                                <div>${file.name}</div>
+                                <div style="font-size: 0.9em; color: #aaa;">${(file.size/1024).toFixed(2)} KB</div>
+                            </div>
+                            <button class="delete-btn" onclick="removeImageFile(${index})">✕</button>
+                        </div>
+                    `;
+                }
+            });
+            
+            fileListDiv.innerHTML = html;
+        }
+        
+        // 移除选中PDF文件
+        function removeFile(index) {
+            selectedFiles.splice(index, 1);
+            updateSelectedFilesList();
+        }
+        
+        // 移除选中数据文件
+        function removeDataFile(index) {
+            selectedDataFiles.splice(index, 1);
+            updateSelectedDataFilesList();
+        }
+        
+        // 移除选中图片文件
+        function removeImageFile(index) {
+            selectedImageFiles.splice(index, 1);
+            updateSelectedImageFilesList();
+        }
+        
+        // 上传PDF文档
+        function uploadDocuments() {
+            if (selectedFiles.length === 0) {
+                alert('请选择至少一个PDF文件');
+                return;
+            }
+            
+            // 验证文件类型
+            for (let file of selectedFiles) {
+                if (file.type !== 'application/pdf') {
+                    alert(`文件 "${file.name}" 不是PDF格式`);
+                    return;
+                }
+            }
+            
+            // 创建FormData对象
+            const formData = new FormData();
+            selectedFiles.forEach(file => {
+                formData.append('pdf', file);
+            });
+            
+            // 获取token
+            const token = localStorage.getItem('token');
+            
+            // 显示上传状态
+            const uploadButton = document.querySelector('.btn');
+            const originalText = uploadButton.textContent;
+            uploadButton.textContent = '上传中...';
+            uploadButton.disabled = true;
+            
+            // 发送上传请求
+            fetch('/api/pdf/upload', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    alert(data.message);
+                    // 清空选中文件
+                    selectedFiles = [];
+                    updateSelectedFilesList();
+                    // 重新加载知识库
+                    loadKnowledgeBase();
+                } else {
+                    alert('上传失败: ' + (data.message || '未知错误'));
+                }
+            })
+            .catch(error => {
+                console.error('上传错误:', error);
+                alert('上传过程中发生错误: ' + error.message);
+            })
+            .finally(() => {
+                // 恢复按钮状态
+                uploadButton.textContent = originalText;
+                uploadButton.disabled = false;
+                // 清空文件选择
+                document.getElementById('fileInput').value = '';
+            });
+        }
+        
+        // 上传数据文件
+        function uploadDataFiles() {
+            if (selectedDataFiles.length === 0) {
+                alert('请选择至少一个数据文件');
+                return;
+            }
+            
+            // 验证文件类型
+            for (let file of selectedDataFiles) {
+                if (file.type !== 'text/csv' && !file.name.endsWith('.csv') && !file.name.endsWith('.md')) {
+                    alert(`文件 "${file.name}" 不是CSV或Markdown格式`);
+                    return;
+                }
+            }
+            
+            // 创建FormData对象
+            const formData = new FormData();
+            selectedDataFiles.forEach(file => {
+                formData.append('datafile', file);
+            });
+            
+            // 获取token
+            const token = localStorage.getItem('token');
+            
+            // 显示上传状态
+            const uploadButtons = document.querySelectorAll('.btn');
+            const uploadDataButton = uploadButtons[1]; // 第二个按钮是上传数据文件的按钮
+            const originalText = uploadDataButton.textContent;
+            uploadDataButton.textContent = '上传中...';
+            uploadDataButton.disabled = true;
+            
+            // 发送上传请求
+            fetch('/api/data/upload', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    alert(data.message);
+                    // 清空选中文件
+                    selectedDataFiles = [];
+                    updateSelectedDataFilesList();
+                } else {
+                    alert('上传失败: ' + (data.message || '未知错误'));
+                }
+            })
+            .catch(error => {
+                console.error('上传错误:', error);
+                alert('上传过程中发生错误: ' + error.message);
+            })
+            .finally(() => {
+                // 恢复按钮状态
+                uploadDataButton.textContent = originalText;
+                uploadDataButton.disabled = false;
+                // 清空文件选择
+                document.getElementById('dataFileInput').value = '';
+            });
+        }
+        
+        // 上传图片文件
+        function uploadImageFiles() {
+            if (selectedImageFiles.length === 0) {
+                alert('请选择至少一个图片文件');
+                return;
+            }
+            
+            // 验证文件类型
+            for (let file of selectedImageFiles) {
+                if (!file.type.startsWith('image/')) {
+                    alert(`文件 "${file.name}" 不是图片格式`);
+                    return;
+                }
+            }
+            
+            // 创建FormData对象
+            const formData = new FormData();
+            selectedImageFiles.forEach(file => {
+                formData.append('image', file);
+            });
+            
+            // 获取token
+            const token = localStorage.getItem('token');
+            
+            // 显示上传状态
+            const uploadButtons = document.querySelectorAll('.btn');
+            const uploadImageButton = uploadButtons[2]; // 第三个按钮是上传图片的按钮
+            const originalText = uploadImageButton.textContent;
+            uploadImageButton.textContent = '上传中...';
+            uploadImageButton.disabled = true;
+            
+            // 发送上传请求
+            fetch('/api/image/upload', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    alert(data.message);
+                    // 清空选中文件
+                    selectedImageFiles = [];
+                    updateSelectedImageFilesList();
+                } else {
+                    alert('上传失败: ' + (data.message || '未知错误'));
+                }
+            })
+            .catch(error => {
+                console.error('上传错误:', error);
+                alert('上传过程中发生错误: ' + error.message);
+            })
+            .finally(() => {
+                // 恢复按钮状态
+                uploadImageButton.textContent = originalText;
+                uploadImageButton.disabled = false;
+                // 清空文件选择
+                document.getElementById('imageFileInput').value = '';
+            });
+        }
+        
+        // 加载文献库
+        function loadKnowledgeBase() {
+            const token = localStorage.getItem('token');
+            
+            fetch('/api/knowledge/literatures', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                literatureList = data;
+                const knowledgeBaseDiv = document.getElementById('knowledgeBase');
+                const literatureCountSpan = document.getElementById('literatureCount');
+                
+                literatureCountSpan.textContent = `(${data.length})`;
+                
+                if (data.length > 0) {
+                    let html = '';
+                    data.forEach(literature => {
+                        html += `
+                            <div class="literature-item">
+                                <div class="literature-info">
+                                    <div class="literature-name">${literature.fileName}</div>
+                                    <div class="literature-meta">${new Date(literature.modified).toLocaleString()} • ${(literature.size/1024).toFixed(2)} KB</div>
+                                </div>
+                                <button class="delete-btn" onclick="deleteLiterature('${literature.fileName}')">✕</button>
+                            </div>
+                        `;
+                    });
+                    knowledgeBaseDiv.innerHTML = html;
+                } else {
+                    knowledgeBaseDiv.innerHTML = '<p>暂无文献</p>';
+                }
+            })
+            .catch(error => {
+                console.error('加载文献库时出错:', error);
+                document.getElementById('knowledgeBase').innerHTML = '<p>加载文献库失败</p>';
+            });
+        }
+        
+        // 加载数据文件库
+        function loadDataFiles() {
+            const token = localStorage.getItem('token');
+            
+            fetch('/api/data/files', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                dataFileList = data;
+                const dataFileListDiv = document.getElementById('dataFileList');
+                const dataFileCountSpan = document.getElementById('dataFileCount');
+                
+                dataFileCountSpan.textContent = `(${data.length})`;
+                
+                if (data.length > 0) {
+                    let html = '';
+                    data.forEach(file => {
+                        html += `
+                            <div class="literature-item">
+                                <div class="literature-info">
+                                    <div class="literature-name">${file.fileName}</div>
+                                    <div class="literature-meta">${new Date(file.modified).toLocaleString()} • ${(file.size/1024).toFixed(2)} KB</div>
+                                </div>
+                                <button class="delete-btn" onclick="deleteDataFile('${file.fileName}')">✕</button>
+                            </div>
+                        `;
+                    });
+                    dataFileListDiv.innerHTML = html;
+                } else {
+                    dataFileListDiv.innerHTML = '<p>暂无数据文件</p>';
+                }
+            })
+            .catch(error => {
+                console.error('加载数据文件库时出错:', error);
+                document.getElementById('dataFileList').innerHTML = '<p>加载数据文件库失败</p>';
+            });
+        }
+        
+        // 加载图片库
+        function loadImages() {
+            const token = localStorage.getItem('token');
+            
+            fetch('/api/image/list', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                imageList = data;
+                const imageListDiv = document.getElementById('imageList');
+                const imageCountSpan = document.getElementById('imageCount');
+                
+                imageCountSpan.textContent = `(${data.length})`;
+                
+                if (data.length > 0) {
+                    let html = '';
+                    data.forEach(file => {
+                        html += `
+                            <div class="literature-item">
+                                <div class="literature-info">
+                                    <div class="literature-name">${file.fileName}</div>
+                                    <div class="literature-meta">${new Date(file.modified).toLocaleString()} • ${(file.size/1024).toFixed(2)} KB</div>
+                                </div>
+                                <button class="delete-btn" onclick="deleteImage('${file.fileName}')">✕</button>
+                            </div>
+                        `;
+                    });
+                    imageListDiv.innerHTML = html;
+                } else {
+                    imageListDiv.innerHTML = '<p>暂无图片</p>';
+                }
+            })
+            .catch(error => {
+                console.error('加载图片库时出错:', error);
+                document.getElementById('imageList').innerHTML = '<p>加载图片库失败</p>';
+            });
+        }
+        
+        // 删除文献
+        function deleteLiterature(fileName) {
+            if (!confirm(`确定要删除文献 "${fileName}" 吗？`)) {
+                return;
+            }
+            
+            const token = localStorage.getItem('token');
+            
+            fetch(`/api/knowledge/literatures/${fileName}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    alert(data.message);
+                    // 重新加载文献库
+                    loadKnowledgeBase();
+                } else {
+                    alert('删除失败');
+                }
+            })
+            .catch(error => {
+                console.error('删除文献时出错:', error);
+                alert('删除文献过程中发生错误');
+            });
+        }
+        
+        // 删除数据文件
+        function deleteDataFile(fileName) {
+            if (!confirm(`确定要删除数据文件 "${fileName}" 吗？`)) {
+                return;
+            }
+            
+            const token = localStorage.getItem('token');
+            
+            fetch(`/api/data/files/${fileName}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    alert(data.message);
+                    // 重新加载数据文件库
+                    loadDataFiles();
+                } else {
+                    alert('删除失败');
+                }
+            })
+            .catch(error => {
+                console.error('删除数据文件时出错:', error);
+                alert('删除数据文件过程中发生错误');
+            });
+        }
+        
+        // 删除图片
+        function deleteImage(fileName) {
+            if (!confirm(`确定要删除图片 "${fileName}" 吗？`)) {
+                return;
+            }
+            
+            const token = localStorage.getItem('token');
+            
+            fetch(`/api/image/delete/${fileName}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    alert(data.message);
+                    // 重新加载图片库
+                    loadImages();
+                } else {
+                    alert('删除失败');
+                }
+            })
+            .catch(error => {
+                console.error('删除图片时出错:', error);
+                alert('删除图片过程中发生错误');
+            });
+        }
+        
+        // 提问
+        function askQuestion() {
+            const question = document.getElementById('questionInput').value;
+            if (!question.trim()) return;
+            
+            // 显示用户问题
+            const chatContainer = document.getElementById('chatContainer');
+            const userMessage = document.createElement('div');
+            userMessage.className = 'message user-message';
+            userMessage.innerHTML = `
+                <div class="message-header">
+                    <span>您</span>
+                    <span>${new Date().toLocaleTimeString()}</span>
+                </div>
+                <div>${question}</div>
+            `;
+            chatContainer.appendChild(userMessage);
+            
+            // 如果有附加的图片或表格，在用户消息中显示
+            if (attachedImages.length > 0 || attachedTables.length > 0) {
+                let attachmentInfo = '<div style="margin-top: 10px; font-size: 0.9em;">附加内容: ';
+                if (attachedImages.length > 0) {
+                    attachmentInfo += `图片(${attachedImages.length}个) `;
+                }
+                if (attachedTables.length > 0) {
+                    attachmentInfo += `表格(${attachedTables.length}个)`;
+                }
+                attachmentInfo += '</div>';
+                userMessage.innerHTML += attachmentInfo;
+            }
+            
+            // 滚动到底部
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+            
+            // 清空输入框
+            document.getElementById('questionInput').value = '';
+            
+            // 显示"AI正在思考"提示
+            const thinkingMessage = document.createElement('div');
+            thinkingMessage.className = 'message ai-message';
+            thinkingMessage.id = 'thinkingMessage';
+            thinkingMessage.innerHTML = `
+                <div class="message-header">
+                    <span>AI助手</span>
+                    <span>现在</span>
+                </div>
+                <div>正在深度分析您的问题...</div>
+            `;
+            chatContainer.appendChild(thinkingMessage);
+            
+            // 滚动到底部
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+            
+            // 获取token
+            const token = localStorage.getItem('token');
+            
+            // 准备请求数据
+            const requestData = {
+                question: question
+            };
+            
+            // 如果有附加内容，可以在这里添加处理逻辑
+            // 这里简化处理，实际项目中可能需要上传附件
+            
+            // 发送问题到后端
+            fetch('/api/qa/ask', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(requestData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                // 移除"正在思考"提示
+                document.getElementById('thinkingMessage').remove();
+                
+                const aiMessage = document.createElement('div');
+                aiMessage.className = 'message ai-message';
+                aiMessage.innerHTML = `
+                    <div class="message-header">
+                        <span>AI助手</span>
+                        <span>${new Date().toLocaleTimeString()}</span>
+                    </div>
+                    <div class="answer-content"></div>
+                `;
+                
+                chatContainer.appendChild(aiMessage);
+                
+                // 获取回答内容容器
+                const answerContent = aiMessage.querySelector('.answer-content');
+                
+                // 处理AI回答：Markdown/列表/代码/图片渲染 + 表情/高亮
+                const answerText = data.answer || '抱歉，我没有找到相关答案。';
+                const renderedAnswer = renderAIContent(answerText);
+                
+                // 实时逐字输出回答（保留HTML标签）
+                typeWriterEffect(answerContent, renderedAnswer, () => {
+                    // 添加深度分析部分
+                    if (data.analysis) {
+                        const deepAnalysis = document.createElement('div');
+                        deepAnalysis.className = 'deep-analysis';
+                        deepAnalysis.innerHTML = `
+                            <div class="deep-analysis-header">
+                                <span>🔬 深度分析</span>
+                            </div>
+                            <div class="deep-analysis-content"></div>
+                        `;
+                        aiMessage.appendChild(deepAnalysis);
+                        
+                        const analysisContent = deepAnalysis.querySelector('.deep-analysis-content');
+                        typeWriterEffect(analysisContent, renderAIContent(data.analysis || ''), () => {
+                            // 添加代码解决方案部分（如果有）
+                            if (data.code) {
+                                const codeSolution = document.createElement('div');
+                                codeSolution.className = 'deep-analysis';
+                                codeSolution.innerHTML = `
+                                    <div class="deep-analysis-header">
+                                        <span>💻 代码解决方案</span>
+                                    </div>
+                                    <div class="deep-analysis-content"></div>
+                                `;
+                                aiMessage.appendChild(codeSolution);
+                                
+                                const codeContent = codeSolution.querySelector('.deep-analysis-content');
+                                typeWriterEffect(codeContent, renderAIContent(data.code || ''), () => {
+                                    // 如果有参考文献，添加到回答中
+                                    if (data.references && data.references.length > 0) {
+                                        let referencesHTML = `
+                                            <div class="references-section">
+                                                <div class="references-header">参考文献</div>
+                                        `;
+                                        
+                                        data.references.forEach(ref => {
+                                            referencesHTML += `<div class="reference-item">${ref}</div>`;
+                                        });
+                                        
+                                        referencesHTML += `</div>`;
+                                        
+                                        const referencesDiv = document.createElement('div');
+                                        referencesDiv.innerHTML = referencesHTML;
+                                        aiMessage.appendChild(referencesDiv);
+                                        
+                                        // 滚动到底部
+                                        chatContainer.scrollTop = chatContainer.scrollHeight;
+                                    }
+                                });
+                            } else if (data.references && data.references.length > 0) {
+                                // 如果没有代码解决方案但有参考文献
+                                let referencesHTML = `
+                                    <div class="references-section">
+                                        <div class="references-header">参考文献</div>
+                                `;
+                                
+                                data.references.forEach(ref => {
+                                    referencesHTML += `<div class="reference-item">${ref}</div>`;
+                                });
+                                
+                                referencesHTML += `</div>`;
+                                
+                                const referencesDiv = document.createElement('div');
+                                referencesDiv.innerHTML = referencesHTML;
+                                aiMessage.appendChild(referencesDiv);
+                                
+                                // 滚动到底部
+                                chatContainer.scrollTop = chatContainer.scrollHeight;
+                            }
+                        });
+                    } else if (data.code) {
+                        // 如果没有深度分析但有代码解决方案
+                        const codeSolution = document.createElement('div');
+                        codeSolution.className = 'deep-analysis';
+                        codeSolution.innerHTML = `
+                            <div class="deep-analysis-header">
+                                <span>💻 代码解决方案</span>
+                            </div>
+                            <div class="deep-analysis-content"></div>
+                        `;
+                        aiMessage.appendChild(codeSolution);
+                        
+                        const codeContent = codeSolution.querySelector('.deep-analysis-content');
+                        typeWriterEffect(codeContent, data.code, () => {
+                            // 如果有参考文献，添加到回答中
+                            if (data.references && data.references.length > 0) {
+                                let referencesHTML = `
+                                    <div class="references-section">
+                                        <div class="references-header">参考文献</div>
+                                `;
+                                
+                                data.references.forEach(ref => {
+                                    referencesHTML += `<div class="reference-item">${ref}</div>`;
+                                });
+                                
+                                referencesHTML += `</div>`;
+                                
+                                const referencesDiv = document.createElement('div');
+                                referencesDiv.innerHTML = referencesHTML;
+                                aiMessage.appendChild(referencesDiv);
+                                
+                                // 滚动到底部
+                                chatContainer.scrollTop = chatContainer.scrollHeight;
+                            }
+                        });
+                    } else if (data.references && data.references.length > 0) {
+                        // 如果没有深度分析和代码解决方案但有参考文献
+                        let referencesHTML = `
+                            <div class="references-section">
+                                <div class="references-header">参考文献</div>
+                        `;
+                        
+                        data.references.forEach(ref => {
+                            referencesHTML += `<div class="reference-item">${ref}</div>`;
+                        });
+                        
+                        referencesHTML += `</div>`;
+                        
+                        const referencesDiv = document.createElement('div');
+                        referencesDiv.innerHTML = referencesHTML;
+                        aiMessage.appendChild(referencesDiv);
+                        
+                        // 滚动到底部
+                        chatContainer.scrollTop = chatContainer.scrollHeight;
+                    }
+                    
+                    // 重新加载历史记录
+                    loadChatHistory();
+                });
+                
+                // 滚动到底部
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+                
+                // 清空附件
+                attachedImages = [];
+                attachedTables = [];
+            })
+            .catch(error => {
+                console.error('问答错误:', error);
+                // 移除"正在思考"提示
+                const thinkingMessage = document.getElementById('thinkingMessage');
+                if (thinkingMessage) {
+                    thinkingMessage.remove();
+                }
+                
+                const errorMessage = document.createElement('div');
+                errorMessage.className = 'message ai-message';
+                errorMessage.innerHTML = `
+                    <div class="message-header">
+                        <span>AI助手</span>
+                        <span>${new Date().toLocaleTimeString()}</span>
+                    </div>
+                    <div>抱歉，回答问题时出现错误: ${error.message}</div>
+                `;
+                chatContainer.appendChild(errorMessage);
+                
+                // 滚动到底部
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+                
+                // 清空附件
+                attachedImages = [];
+                attachedTables = [];
+            });
+        }
+        
+        // 加载聊天历史
+        function loadChatHistory() {
+            const token = localStorage.getItem('token');
+            
+            fetch('/api/qa/history', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                chatHistory = data;
+                const historyListDiv = document.getElementById('historyList');
+                
+                if (data.length > 0) {
+                    let html = '';
+                    // 只显示最近5条记录
+                    const recentHistory = data.slice(-5);
+                    recentHistory.forEach(item => {
+                        html += `
+                            <div style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                                <div style="font-size: 0.9em; color: #aaa;">${new Date(item.timestamp).toLocaleString()}</div>
+                                <div style="margin-top: 5px;">${item.question.substring(0, 30)}${item.question.length > 30 ? '...' : ''}</div>
+                            </div>
+                        `;
+                    });
+                    historyListDiv.innerHTML = html;
+                } else {
+                    historyListDiv.innerHTML = '<p>暂无历史记录</p>';
+                }
+            })
+            .catch(error => {
+                console.error('加载问答历史时出错:', error);
+                // 降级到本地存储
+                const savedHistory = localStorage.getItem('chatHistory');
+                if (savedHistory) {
+                    chatHistory = JSON.parse(savedHistory);
+                }
+                
+                const historyListDiv = document.getElementById('historyList');
+                if (chatHistory.length > 0) {
+                    let html = '';
+                    // 只显示最近5条记录
+                    const recentHistory = chatHistory.slice(-5);
+                    recentHistory.forEach(item => {
+                        html += `
+                            <div style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                                <div style="font-size: 0.9em; color: #aaa;">${new Date(item.timestamp).toLocaleString()}</div>
+                                <div style="margin-top: 5px;">${item.question.substring(0, 30)}${item.question.length > 30 ? '...' : ''}</div>
+                            </div>
+                        `;
+                    });
+                    historyListDiv.innerHTML = html;
+                } else {
+                    historyListDiv.innerHTML = '<p>暂无历史记录</p>';
+                }
+            });
+        }
+        
+        // 回车发送问题
+        document.getElementById('questionInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                askQuestion();
+            }
+        });
+        
+        // 打字机效果函数（支持HTML标签）
+        function typeWriterEffect(element, htmlText, callback) {
+            let processedText = htmlText || '';
+            let i = 0;
+            const speed = 20; // 打字速度（毫秒）
+            
+            function type() {
+                if (i < processedText.length) {
+                    let char = processedText.charAt(i);
+                    
+                    if (char === '<') {
+                        const tagEnd = processedText.indexOf('>', i);
+                        if (tagEnd !== -1) {
+                            const tag = processedText.substring(i, tagEnd + 1);
+                            element.innerHTML += tag;
+                            i = tagEnd + 1;
+                        } else {
+                            element.innerHTML += char;
+                            i++;
+                        }
+                    } else {
+                        element.innerHTML += char;
+                        i++;
+                    }
+                    
+                    setTimeout(type, speed);
+                } else {
+                    if (callback && typeof callback === 'function') {
+                        callback();
+                    }
+                }
+            }
+            
+            type();
+        }
+
+        // 轻量内容渲染：标题/列表/代码/行内代码/粗体/图片/换行
+        function renderAIContent(text) {
+            if (!text) return '';
+            
+            // 表情代码替换
+            const emojiMap = {
+                ':smile:': '😊', ':thumbsup:': '👍', ':star:': '🌟', ':check:': '✅', ':x:': '❌',
+                ':question:': '❓', ':warning:': '⚠️', ':microscope:': '🔬', ':chart:': '📊',
+                ':lightbulb:': '💡', ':handshake:': '🤝', ':pray:': '🙏'
+            };
+            for (const [code, emoji] of Object.entries(emojiMap)) {
+                text = text.replace(new RegExp(code, 'g'), emoji);
+            }
+            
+            // 代码块 ```...```
+            text = text.replace(/```([\s\S]*?)```/g, function(_, code) {
+                const escaped = code.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                return `<pre><code>${escaped}</code></pre>`;
+            });
+            
+            // 行内代码 `code`
+            text = text.replace(/`([^`]+)`/g, '<code>$1</code>');
+            
+            // 粗体 **text**
+            text = text.replace(/\*\*(.*?)\*\*/g, '<span class="highlight">$1</span>');
+            
+            // 图片 ![alt](url)
+            text = text.replace(/!\[(.*?)\]\((.*?)\)/g, '<div class="ai-image"><img alt="$1" src="$2" /></div>');
+            
+            // 标题/列表/段落
+            const lines = text.split(/\r?\n/);
+            const out = [];
+            let listBuffer = [];
+            let olistBuffer = [];
+            
+            function flushList() {
+                if (listBuffer.length > 0) {
+                    out.push('<ul class="ai-list">' + listBuffer.map(li => `<li>${li}</li>`).join('') + '</ul>');
+                    listBuffer = [];
+                }
+                if (olistBuffer.length > 0) {
+                    out.push('<ol class="ai-ol">' + olistBuffer.map(li => `<li>${li}</li>`).join('') + '</ol>');
+                    olistBuffer = [];
+                }
+            }
+            
+            for (let line of lines) {
+                const trimmed = line.trim();
+                if (!trimmed) { flushList(); out.push(''); continue; }
+                if (/^###\s+/.test(trimmed)) { flushList(); out.push(`<div class=\"ai-h2\">${trimmed.replace(/^###\s+/, '')}</div>`); continue; }
+                if (/^##\s+/.test(trimmed)) { flushList(); out.push(`<div class=\"ai-h2\">${trimmed.replace(/^##\s+/, '')}</div>`); continue; }
+                // 无序列表
+                if (/^[-*]\s+/.test(trimmed)) { listBuffer.push(trimmed.replace(/^[-*]\s+/, '')); continue; }
+                // 有序列表（1. / 1) / 1、 / 1.1. / 1.1）
+                if (/^\d+[\.|\)|、]\s+/.test(trimmed) || /^\d+\.\d+([\.|\)]?)\s+/.test(trimmed)) {
+                    const item = trimmed.replace(/^((\d+\.\d+)|(\d+))[\.|\)|、]?\s+/, '');
+                    olistBuffer.push(item);
+                    continue;
+                }
+                flushList();
+                out.push(trimmed);
+            }
+            flushList();
+            return out.join('\n');
+        }
+    </script>
+</body>
+</html>
