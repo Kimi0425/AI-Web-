@@ -6,7 +6,7 @@
 PORT=3001
 
 # JWT密钥 (请更改为安全的随机字符串)
-JWT_SECRET=3a5b8c1d2e7f9a0b4c6e8d1f3a5b7c9e2d4f6a8b0c1e3f5a7b9d2c4e6f8a0b1c
+JWT_SECRET=6666666
 
 # 通义大模型API密钥
 DASHSCOPE_API_KEY=your api key
